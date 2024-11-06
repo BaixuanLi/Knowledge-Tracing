@@ -1,0 +1,20 @@
+model:
+  pth: "meta-llama/Llama-3.2-3B"
+  name: "llama-3.2-3b"
+
+generation_args:
+  max_generate_length: 1
+  do_sample: false
+  output_scores: true
+  return_dict_in_generate: true
+
+hook_layer:
+  clean_save: ['model.layers.[LAYER_NUM]', 'model.layers.[LAYER_NUM].self_attn', 'model.layers.[LAYER_NUM].mlp']
+  corrupt: 'model.embed_tokens'
+  corrupted_save: ['model.layers.[LAYER_NUM].self_attn', 'model.layers.[LAYER_NUM].mlp']
+  clean_replace: 'model.layers.[LAYER_NUM]'
+  attn_sever: 'model.layers.[LAYER_NUM].self_attn'
+  mlp_sever: 'model.layers.[LAYER_NUM].mlp'
+
+result_pth:
+  base_pth: './results/'
